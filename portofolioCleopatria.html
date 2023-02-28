@@ -1,0 +1,496 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cleopatria</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+   
+    <link href="https://fonts.googleapis.com/css?family=Poppins:400,700" rel="stylesheet">
+
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <style>
+        .btn:not(:disabled):not(.disabled) {
+            cursor: pointer;
+            color: black;
+            font-weight: 100;
+        }
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: white;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        } 
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        hr {
+            margin-top: 5rem;
+            margin-bottom: 5rem;
+            border: 0;
+            border-top: 2px solid rgb(0 0 0 / 43%);
+        }
+
+        .modal-body {
+            padding: 0rem;
+        }
+
+        .modal-content {
+            background: transparent;
+            border: 0;
+        }
+
+        .modal-header {
+            z-index: 200;
+            padding: 0;
+            border: transparent;
+            margin: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        modal-dialog
+        header {
+            background-color: #fff;
+            color: #333;
+        }
+
+        .navbar {
+            padding: 1rem 0;
+        }
+
+        .hero-header {
+            position: relative;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+            .hero-header .hero-overlay {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.5);
+                z-index: 1;
+            }
+
+            .hero-header img {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+
+        .photo-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: stretch;
+            margin-top: 2rem;
+        }
+
+        .photo-item {
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+        }
+
+            .photo-item img {
+                width: 100%;
+                height: auto;
+            }
+
+        .product-flag {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 0.25rem 0.5rem;
+            font-size: 14px;
+            font-weight: 100;
+            text-transform: uppercase;
+            color: #fff;
+            z-index: 2;
+        }
+
+            .product-flag.sold {
+                background-color: #ff5e5e;
+            }
+
+            .product-flag.available {
+                background-color: #8bc34a;
+            }
+
+        .photo-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            margin: 0 15px;
+            width: calc(100% - 30px);
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+            .photo-overlay h4 {
+                font-size: 24px;
+                font-weight: 100;
+                margin: 0;
+                text-align: center;
+                font-family: 'Poppins', sans-serif;
+            }
+
+            .photo-overlay.active {
+                opacity: 1;
+            }
+        .navbar-light .navbar-toggler {
+            color: rgba(0,0,0,.5);
+            border-color: rgba(0,0,0,0);
+        }
+        .ml-nav {
+            margin-left: auto !important;
+        }
+
+        @media (max-width: 767px) {
+            .ml-nav {
+                margin-left: 15px !important;
+            }
+            .navbar-brand {
+                margin-left: 15px;
+            }
+                .product-flag {
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                padding: 0.25rem 0.5rem;
+                font-size: 9px;
+            }
+                .photo-grid {
+                display: block;
+            }
+
+            .photo-item {
+                width: 100%;
+                margin-bottom: 20px;
+            }
+
+                .photo-item img {
+                    width: 100%;
+                    height: auto;
+                }
+
+            .photo-overlay {
+                font-size: 16px;
+            }
+
+            .modal-content {
+                padding: 10px;
+            }
+        }
+
+
+        #info {
+            background: linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%);
+            color: white;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        @media screen and (prefers-reduced-motion: reduce) {
+            html {
+                scroll-behavior: auto;
+            }
+        }
+
+        .image-wrapper {
+            height: 100%;
+        }
+
+            .image-wrapper img {
+                object-fit: cover;
+            }
+
+        .card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
+            margin-top: 30px;
+        }
+
+        .card-title {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        .card-text {
+            font-size: 18px;
+            line-height: 1.5;
+        }
+
+        .btn {
+            margin-right: 10px;
+        }
+
+        .btn-primary {
+            background-color: rgba(255, 255, 255, 0.3);
+            border: none;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+            .btn-primary:hover {
+                background-color: rgba(255, 255, 255, 0.5);
+                color: #FF8E53;
+                transition: all 0.3s ease;
+            }
+    </style>
+</head>
+
+<body class="" style="">
+
+    <header>
+        <nav class="navbar navbar-expand-md navbar-light white fixed-top" style="background: white;">
+            <div class="container">
+                <a class="navbar-brand" href="#"> Andrea Cleopatria</a>
+                <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarNav" aria-expanded="false">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse" id="navbarNav" style="">
+                    <ul class="navbar-nav ml-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#project-section">Projects</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#info-section">About</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#contact-section">Contact</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div class="hero-header">
+            <div class=""></div>
+            <img src="img/Niterroi_1961[SOLD].jpg" class="img-fluid">
+        </div>
+    </header>
+    <section id="project-section" style="visibility: hidden; transform: translateY(-40px)">
+    </section>
+    <section id="
+                 ">
+        <div class="container mt-5">
+            <div class="row photo-grid">
+                <div style="height: fit-content;" class="col-md-6 col-12 photo-item">
+                    <div class="product-flag available">Disponibile in trattativa privata</div>
+                    <div class="photo-overlay">
+                        <h4>Photo 1</h4>
+                    </div>
+                    <img src="img/Niterroi_1961[SOLD].jpg" class="img-fluid">
+                </div>
+                <div style="height: fit-content;" class="col-md-6 col-12 photo-item">
+                    <div class="product-flag available">Disponibile in trattativa privata</div>
+                    <div class="photo-overlay">
+                        <h4>Photo 2</h4>
+                    </div>
+                    <img src="img/sao_Jorge_e_o dragao[SOLD].jpg" class=" img-fluid">
+                </div>
+            </div>
+            <div class="row align-items-top">
+                <div style="height: fit-content;" class=" col-12 col-sm-6 col-md-4 photo-item">
+                    <div class="product-flag available">Disponibile in trattativa privata</div>
+                    <div class="photo-overlay">
+                        <h4>Photo 3</h4>
+                    </div>
+                    <img src="img/ore_18_e_30.jpg" class="img-fluid">
+                </div>
+                <div style="height: fit-content;" class="col-12 col-sm-6  col-md-4 photo-item ">
+                    <div class="product-flag available">Disponibile in trattativa privata</div>
+                    <div class="photo-overlay">
+                        <h4>Photo 4</h4>
+                    </div>
+                    <img src="img/scimmia_alla_finestra.jpg" class="img-fluid">
+                </div>
+                <div style="height: fit-content;" class="col-12 col-sm-6  col-md-4 photo-item">
+                    <div class="product-flag available">Disponibile in trattativa privata</div>
+                    <div class="photo-overlay">
+                        <h4>Photo 5</h4>
+                    </div>
+                    <img src="img/volpe_ed_elefante_con_vasi.jpg" class="img-fluid">
+                </div>
+            </div>
+
+
+        </div>
+
+    </section>
+
+    <section id="info-section" class="  container">
+        <div><hr /></div>
+        <div class=" ">
+            <h2 class="card-title">Andrea Cleopatria</h2>
+            <p class="card-text">
+                Andrea Cleopatria nasce a Milano nel 1987. Autodidatta, indaga tramite il video e la pittura l'esoterico del mondo, generando cosmografie mitologiche che conferiscono alle sue opere un mistero magico e sacro.<br /><br />
+                Influenzato da una vasta cultura cinematografica, tutti suoi lavori presentano numerosi riferimenti cinefili. Realizza il suo primo lungometraggio "MALÌA" (88 min, 2015), film che riscuoterà successo internazionale;<br /><br />Nel 2016 alla Galleria Federico Vavassori esporrà assieme a Dario Guccio un'opera di video arte nella mostra "Referendum sull'aeroplano";<br /> <br />Nello stesso anno inizierà la collaborazione con il musicista Andrea Venerus producendo per lui il videoclip "Young Blades" (18 Min). Da quel momento sarà Direttore Artistico del progetto musicale di Venerus, realizzando videoclip, cover album e le scenografie per i concerti.<br /><br />Negli ultimi anni si dedica alla pittura, prediligendo lavori su grandi tele.
+            </p>
+        </div>
+    </section>
+    <div style="height: 50px;"></div>
+    <section id="contact-section" style="background:white;" class="container">
+        <div><hr /></div>
+        <div class=" ">
+            <h2 class="card-title" style="text-align: center; font-size: 2rem;">Contatti</h2>
+            <div style="text-align:center;">
+               
+                <div class="mt-3">
+                    <p>
+                        <a href="mailto:email@email.com" style="text-align: left; padding: 0; color: black;" class=" me-3">
+                            <i class="fas fa-envelope me-2"></i>andreacleopatria@gmail.com
+                        </a>
+                    </p><p>
+                        <a href="https://www.instagram.com/cleopatria_a/" style="text-align: left; color: black; padding: 0;" class=" ">
+                            <i class="fab fa-instagram me-2"></i>@cleopatria_a
+                        </a>
+                    </p>
+                </div>
+
+            </div>
+        </div>
+        <div style="height: 80px;"></div>
+    </section>
+     
+
+    <footer style="display: block; border-top: 1px solid lightgrey">
+        <div class="container ">
+            <p style="
+    margin: 7px;
+">
+                <a href="https://www.instagram.com/andreacleopatria/" style="color:lightgrey" class="card-text"><i class="fab fa-instagram me-2"></i>@cleopatria2023</a>
+
+            </p>
+        </div>
+    </footer>
+    <div id="photo-modal" class="modal fade" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered  ">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button style="color: white;     opacity: 0.99;" type="button" class="close" data-dismiss="modal">x</button>
+                </div>
+                <div class="modal-body">
+                    <div id="carousel" class="carousel slide" data-ride="carousel">
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <img src="https://picsum.photos/400/800" class="d-block w-100">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="https://picsum.photos/400/800" class="d-block w-100">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="https://picsum.photos/400/800" class="d-block w-100">
+                            </div>
+                        </div>
+                        <a class="carousel-control-prev" href="#carousel" data-slide="prev">
+                            <span class="carousel-control-prev-icon"></span>
+                        </a>
+                        <a class="carousel-control-next" href="#carousel" data-slide="next">
+                            <span class="carousel-control-next-icon"></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(window).on("load", function () {
+            var $spinner = $("<div>").addClass("spinner-border text-primary");
+            var $loader = $("<div>").addClass("loader").append($spinner);
+            $("body").prepend($loader);
+
+            var $images = $("img");
+            var loaded = 0;
+            $images.on("load", function () {
+                loaded++;
+                if (loaded == $images.length) {
+                    $spinner.css("opacity", 0);
+
+                    setTimeout(function () {
+                        $loader.remove();
+                    }, 500);
+                }
+            }).each(function () {
+                if (this.complete) $(this).trigger("load");
+            });
+        });
+
+        $(document).ready(function () {
+
+            $('img').each(function () {
+                var filename = $(this).attr('src').split('/').pop().replace('.jpg', '').replace(/_/g, ' ');
+                var productFlag = $(this).siblings('.product-flag');
+                if (filename.indexOf('[SOLD]') !== -1 && productFlag.hasClass('available')) {
+                    productFlag.removeClass('available').addClass('sold').text('Sold');
+                }
+
+                filename = filename.replace('[SOLD]', '');
+                filename = filename.charAt(0).toUpperCase() + filename.slice(1);
+
+
+                $(this).siblings('.photo-overlay').children('h4').text(filename);
+
+            });
+
+            var maxHeight = 0;
+            $('.image-wrapper').each(function () {
+                if ($(this).height() > maxHeight) {
+                    maxHeight = $(this).height();
+                }
+            });
+            $('.image-wrapper').height(maxHeight);
+            $('.photo-item').on('click', function () {
+                var $photoItems = $('.photo-item');
+                var index = $photoItems.index(this);
+                var carouselItems = '';
+
+                $photoItems.each(function () {
+                    var $img = $(this).find('img');
+                    if ($img.length > 0) {
+                        carouselItems += '<div class="carousel-item"><img src="' + $img.attr('src') + '" class="d-block w-100"></div>';
+                    }
+                });
+
+                $('#carousel .carousel-inner').html(carouselItems);
+                $('#carousel .carousel-item').eq(index).addClass('active');
+                $('#photo-modal').modal('show');
+            });
+
+            $('.photo-item').on('mouseenter', function () {
+                $(this).find('.photo-overlay').addClass('active');
+            });
+
+            $('.photo-item').on('mouseleave', function () {
+                $(this).find('.photo-overlay').removeClass('active');
+            });
+        });
+    </script>
+
+</body>
+</html>
