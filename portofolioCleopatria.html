@@ -1,0 +1,791 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cleopatria</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <link href="https://fonts.googleapis.com/css?family=Poppins:400,700" rel="stylesheet">
+
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.3.0/lazysizes.min.js"></script>
+    <style>
+        @media (min-width: 992px) {
+            .modal-lg, .modal-xl {
+                max-width: 900px;
+            }
+        }
+
+        @media (min-width: 1200px) {
+            .modal-lg, .modal-xl {
+                max-width: 1000px;
+            }
+        }
+
+        @media (min-width: 1400px) {
+            .modal-lg, .modal-xl {
+                max-width: 1100px;
+            }
+        }
+
+        .btn:not(:disabled):not(.disabled) {
+            cursor: pointer;
+            color: black;
+            font-weight: 100;
+        }
+
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: white;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        hr {
+            margin-top: 5rem;
+            margin-bottom: 5rem;
+            border: 0;
+            border-top: 2px solid rgb(0 0 0 / 43%);
+        }
+
+        .carousel-caption {
+            color: black;
+        }
+
+        .carousel-item {
+            background: white;
+        }
+
+        .modal-body {
+            padding: 0rem;
+        }
+
+        .modal-content {
+            background: transparent;
+            border: 0;
+        }
+
+        .modal-header {
+            z-index: 200;
+            padding: 0;
+            border: transparent;
+            margin: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        modal-dialog
+        header {
+            background-color: #fff;
+            color: #333;
+        }
+
+        .navbar {
+            padding: 1rem 0;
+        }
+
+        .hero-header {
+            position: relative;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+            .hero-header .hero-overlay {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.5);
+                z-index: 1;
+            }
+
+            .hero-header img {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+
+        .photo-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: stretch;
+            margin-top: 2rem;
+        }
+
+        .photo-item {
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+        }
+
+            .photo-item img {
+                width: 100%;
+                height: auto;
+            }
+
+        .product-flag {
+            position: absolute;
+            display: none;
+            top: 10px;
+            right: 10px;
+            padding: 0.25rem 0.5rem;
+            font-size: 14px;
+            font-weight: 100;
+            text-transform: uppercase;
+            color: #fff;
+            z-index: 2;
+        }
+
+
+            .product-flag.sold {
+                background-color: #ff5e5e;
+            }
+
+            .product-flag.available {
+                background-color: #8bc34a;
+            }
+
+        .carousel-control-next {
+            transform: translateX(100px);
+        }
+
+        .carousel-control-prev {
+            transform: translateX(-100px);
+        }
+
+        .carousel-caption {
+            position: initial;
+            padding: 20px;
+            padding-right: 35px;
+        }
+
+        .photo-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            margin: 0 15px;
+            width: calc(100% - 30px);
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+            .photo-overlay h4 {
+                font-size: 24px;
+                font-weight: 100;
+                margin: 0;
+                text-align: center;
+                font-family: 'Poppins', sans-serif;
+            }
+
+            .photo-overlay.active {
+                opacity: 1;
+            }
+
+        .navbar-light .navbar-toggler {
+            color: rgba(0,0,0,.5);
+            border-color: rgba(0,0,0,0);
+        }
+
+        .ml-nav {
+            margin-left: auto !important;
+        }
+
+        @media (min-width: 768px) {
+            .img-des {
+                line-height: 1rem;
+                margin-top: 10px
+            }
+        }
+
+        @media (max-width: 767px) {
+            .img-des {
+                margin-top: 2rem
+            }
+
+            .ml-nav {
+                margin-left: 15px !important;
+            }
+
+            .navbar-brand {
+                margin-left: 15px;
+            }
+
+            .product-flag {
+                display: none;
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                padding: 0.25rem 0.5rem;
+                font-size: 9px;
+            }
+
+            .photo-grid {
+                display: block;
+            }
+
+            .photo-item {
+                width: 100%;
+                margin-bottom: 20px;
+            }
+
+                .photo-item img {
+                    width: 100%;
+                    height: auto;
+                }
+
+            .photo-overlay {
+                font-size: 16px;
+            }
+
+            .modal-content {
+                padding: 10px;
+            }
+        }
+
+
+        #info {
+            background: linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%);
+            color: white;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        @media screen and (prefers-reduced-motion: reduce) {
+            html {
+                scroll-behavior: auto;
+            }
+        }
+
+        .image-wrapper {
+            height: 100%;
+        }
+
+            .image-wrapper img {
+                object-fit: cover;
+            }
+
+        .card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
+            margin-top: 30px;
+        }
+
+        .card-title {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        .card-text {
+            font-size: 18px;
+            line-height: 1.5;
+        }
+
+        .btn {
+            margin-right: 10px;
+        }
+
+        .btn-primary {
+            background-color: rgba(255, 255, 255, 0.3);
+            border: none;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+            .btn-primary:hover {
+                background-color: rgba(255, 255, 255, 0.5);
+                color: #FF8E53;
+                transition: all 0.3s ease;
+            }
+    </style>
+</head>
+
+<body class="" style="">
+
+    <header>
+        <nav class="navbar navbar-expand-md navbar-light white fixed-top" style="background: white;">
+            <div class="container">
+                <a class="navbar-brand" href="#">Cleopatria</a>
+                <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarNav" aria-expanded="false">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse" id="navbarNav" style="">
+                    <ul class="navbar-nav ml-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#project-section">Projects</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#info-section">About</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#exhibitions-section">Exhibitions</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#contact-section">Contact</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div class="hero-header">
+            <div class=""></div>
+            <img src="img/Niterroi_1961[SOLD].jpg" class="img-fluid ">
+        </div>
+    </header>
+    <section id="project-section" style="visibility: hidden; transform: translateY(-40px)">
+    </section>
+    <section id="
+                 ">
+        <div class="container mt-5">
+            <div class="row photo-grid">
+                <div style="height: fit-content;" class="col-md-6 col-12 photo-item">
+                    <div class="product-flag available">Disponibile in trattativa privata</div>
+                    <div class="photo-overlay">
+                        <h4>Photo 1</h4>
+                    </div>
+                    <img data-src="img/Niterroi_1961[SOLD].jpg" src="img/Niterroi_1961[SOLD].jpg" class="lazyload img-fluid" info="<h3>NITEROI</h3>  (200cm x 200cm, acrylic on canvas, 2022)<br /><br />
+Il 17 dicembre 1961 in Brasile, nella città di Niteroi, divampa un incendio nella tenda del
+circo locale, provocando più di 500 vittime. Il Gran Circus Norte-Americano comprendeva nel
+suo repertorio circa 60 artisti e 150 animali di cui tre elefanti incatenati, in preda all'istinto di
+salvarsi la vita, sono riusciti a liberarsi e fuggire via. Tutte le strade della città sono state
+presto travolte da urla di disperazione e dolore, circa il 70% delle vittime erano bambini,
+molti testimoni hanno successivamente affermato che i bambini erano stati calpestati a
+morte da adulti che cercavano di scappare dal tendone del circo.
+Le cause dell'incendio sono ancora piuttosto dibattute, il tendone da circo importato
+dall'India era stato pubblicizzato come realizzato in nylon, ma in realtà era cotone trattato
+con cera di paraffina, un materiale altamente infiammabile. Inizialmente si è pensato ad un
+problema legato agli impianti elettrici, ma alla fine delle indagini vennero processati e
+
+condannati i tre responsabili con l'accusa di incendio doloso. Questo episodio ha lasciato
+una ferita indelebile per il Paese, ad oggi è il peggior disastro incendiario mai verificatosi.
+La storia ha ispirato Cleopatria nella realizzazione di un quadro che ricordasse la tragedia,
+indagandone gli aspetti più simbolici. Al centro del quadro vediamo emergere
+prepotentemente dalla disperazione un leone ed un elefante. Il leone rappresenta la
+necessità di sopravvivere, di reagire così da fuggire alla morte che lo circonda. L'elefante,
+simbolo della ragione, moderazione, saggezza si trova più indietro rispetto alla forza
+istintiva, rimane comunque presente a sorvegliare e a garantire una via d'uscita facendosi
+largo nel caos, quasi come se partisse da lui la volontà di non soccombere alla sorte che
+attende tutti. Allo stesso tempo, ha un'espressione rassicurante che invita a non aver paura
+ad esalare l'ultimo respiro. Una scimmia tenta anch'ella di fuggire, impaurita e sola,
+rappresenta la natura ancestrale ed animale degli uomini. Il cane la fedeltà, la dedizione del
+curarsi dei fratelli caduti nonostante l'avanzare delle fiamme, seguendo il principio di non
+lasciar nessuno indietro. Alle sue spalle una situazione completamente opposta, gli uomini
+cercano di prevaricare gli uni sugli altri, schiacciando i più fragili per garantire la propria
+illusoria salvezza. La Morte, ritratta come nelle pitture medioevali, tiene in mano una
+clessidra ricordandoci che polvere siamo e polvere torneremo. La donna che asciuga le
+proprie lacrime viene abbracciata da un bambino che ricerca il calore della consolazione
+materna, un tributo a tutte le infanzie interrotte.">
+                </div>
+                <div style="height: fit-content;" class="col-md-6 col-12 photo-item">
+                    <div class="product-flag available">Disponibile in trattativa privata</div>
+                    <div class="photo-overlay">
+                        <h4>Photo 2</h4>
+                    </div>
+                    <img data-src="img/sao_Jorge_e_o dragao.jpg" src="img/sao_Jorge_e_o dragao.jpg" class=" lazyload img-fluid" info="<h3>Sao Jorge e o dragao</h3>   (100cm x 100cm, acrylic on canvas, 2022)<br /><br />
+Nella storia dell'arte innumerevoli ed illustri sono state le varianti della vicenda che vede
+protagonista San Giorgio e l'uccisione del drago. San Giorgio è l'emblema della ragione che
+trionfa sulla bestialità e della fede che vince il male; a differenza del quadro di Paolo Uccello
+o della rappresentazione di Raffaello, il paesaggio è un ambiente tropicale caratteristico del
+Brasile con luci naturali e colori chiari. È assente la fanciulla presente nelle altre versioni del
+dipinto. La composizione della scena è basata su linee ortogonali così da esaltare il
+dinamismo dell'attacco e l'espressione del martire appare assorta e sicura di sé. Il destriero,
+terrorizzato, impone la sua grandezza sul malvagio nemico, diventando anch'egli un'ulteriore
+arma di difesa per il Santo.">
+                </div>
+            </div>
+            <div class="row align-items-top">
+                <div style="height: fit-content;" class=" col-12 col-sm-6 col-md-6 photo-item">
+                    <div class="product-flag available">Disponibile in trattativa privata</div>
+                    <div class="photo-overlay">
+                        <h4>Photo 3</h4>
+                    </div>
+                    <img data-src="img/ore_18_e_30.jpg" src="img/ore_18_e_30.jpg" class="lazyload img-fluid" info="<h3>  Ore 18.30</h3>  (120cm x 70cm, 2022)<br><br />
+Al sentimento di leggerezza dopo un pomeriggio passato a darsi reciproco piacere, segue sempre il gioco. L'intimità della condivisione richiama gli istinti più scherzosi, fanciulleschi e chiama a sé la primavera. ">
+                </div>
+                <div style="height: fit-content;" class="col-12 col-sm-6  col-md-6 photo-item ">
+                    <div class="product-flag available">Disponibile in trattativa privata</div>
+                    <div class="photo-overlay">
+                        <h4>Photo 4</h4>
+                    </div>
+                    <img data-src="img/scimmia_alla_finestra[SOLD].jpg" src="img/scimmia_alla_finestra[SOLD].jpg" class="lazyload img-fluid" info="<h3> Scimmia alla finestra</h3>  (120cm x 70cm, acrylic on canvas, 2022) <br /><br />
+Nei quadri di Cleopatria non mancano certo i
+riferimenti alla natura primitiva ed istintiva
+dell'uomo, in  ''Scimmia alla finestra'' viene
+                         ritratta una scimmia con la postura e
+                         l'abitudine di un uomo evoluto e civilizzato.">
+                </div>
+               
+            </div>
+
+
+        </div>
+
+    </section>
+
+    <section id="info-section" class="  container">
+        <div><hr /></div>
+        <div class=" ">
+            <h2 class="card-title">Andrea Cleopatria</h2>
+            <p class="card-text">
+                Andrea Cleopatria nasce a Milano nel 1987. Autodidatta, indaga tramite il video e la pittura l'esoterico del mondo, generando cosmografie mitologiche che conferiscono alle sue opere un mistero magico e sacro.<br /><br />
+                Influenzato da una vasta cultura cinematografica, tutti suoi lavori presentano numerosi riferimenti cinefili. Realizza il suo primo lungometraggio <a href="http://aldebaran-studio.com/malia/malia.html">"MALÌA"</a> (88 min, 2015), film che riscuoterà successo internazionale;<br /><br />Nel 2016 alla Galleria Federico Vavassori esporrà assieme a Dario Guccio un'opera di video arte nella mostra "Referendum sull'aeroplano";<br /> <br />Nello stesso anno inizierà la collaborazione con il musicista Andrea Venerus producendo per lui il videoclip "Young Blades" (18 Min). Da quel momento sarà Direttore Artistico del progetto musicale di Venerus, realizzando videoclip, cover album e le scenografie per i concerti.<br /><br />Negli ultimi anni si dedica alla pittura, prediligendo lavori su grandi tele.
+            </p>
+        </div>
+    </section>
+
+    <section id="exhibitions-section">
+        <div class="container mt-5">
+            <div><hr /></div>
+            <div class=" ">
+                <h2 class="card-title" style="text-align: center; font-size: 2rem;">Exhibitions</h2>
+                <h2 class="card-title" style="text-align: center; font-size:1.4rem;">
+                    CATCH A FIRE
+                </h2>
+                <h2 class="card-title" style="text-align: center; font-size:1rem;">
+                    A cura di Stefania Plaza Mora
+                </h2>
+
+                <div class="row photo-grid">
+                    <div style="height: fit-content;" class=" col-12 ">
+                        <p class="card-text">
+                            La domanda sul cosa gli uomini siano distrae potentemente dalla domanda sul dove essi
+                            sono. Abitiamo una dimensione preparatoria per ciò che verrà, la nostra individualità è una
+                            delle infinite forme in cui si può manifestare l'umanità. Ogni scelta, ogni cammino intrapreso,
+                            fanno parte di un percorso comune che ci invita all'elevazione. È possibile guardare
+                            all'interno di noi stessi, riconoscendo e perseguendo il proprio destino, solo dopo essersi
+                            svegliati dal sonno spirituale che la maggior parte abita senza accorgersene sottostando a
+                            ritmi innaturali e trascurando l'irrompere dell'ignoto nella realtà.
+                            Catch a Fire è un indagine sull'impossibilità di evadere dal destino dell'esistenza,
+                            sull'intuizione che precede il risveglio delle coscienze e la conseguente ricerca dell'Altro con
+                            cui affrontare le sfide di questo mondo.<br /><br />
+                            Nel primo quadro <b>"La crepa nell'uovo"</b> troviamo una civiltà sorda, impermeabile alla
+                            musica suonata dal Minotauro, custode del sapere magico-rituale, il cui unico ascoltatore
+                            sensibile tra tutti è colui che tiene fra le mani il mondo che, come Prometeo, vuole donare
+                            all'umanità il sapere. I personaggi della scena vivono una stasi profonda, gli sguardi persi ed
+                            arresi ormai non ricercano più l'ignoto o forse non hanno mai iniziato a ricercarlo. Un
+                            personaggio al centro della tela immerge le braccia in un vaso pieno d'acqua con l'intento di
+                            purificarsi; una donna guarda rassegnata l'uovo simbolo cosmico e il segno di ciò che è
+                            potenziale, forse la speranza di un'alternativa, di un altrove, su cui però è presente una
+                            crepa, interpretabile come l'incapacità di guardare al divenire ed agire su di esso.<br /><br />
+                            Ne <b>"Gli orfani"</b> i colori si incupiscono, mare e cielo si toccano in un armonico caos
+                            compositivo, le figure dei due personaggi sono più pesanti e severe, ma sono le uniche a far
+                            trapelare così tanta dolcezza. Si nasce soli, ma i nostri fianchi sono fatti per essere
+                            accompagnati e da qualche parte su questa terra, un fratello ci sta cercando così come noi
+                            stiamo cercando lui. L'Altro è necessario per poterci liberare dalla nostra intima prigionia
+                            tramite la conoscenza di noi stessi, per crescere rigogliosi e unirsi sotto lo scopo comune di
+                            evolvere e diventare altro da sé.<br /><br />
+                            Tra tutti, questo è il lavoro più intimo e personale di Cleopatria. Lui stesso ha scritto:<br /><br />
+                                                                   <i style=" text-align: center; vertical-align: middle; display: table-cell; ">
+                                                                       Tira un vento caldo, è notte, intorno un mare sconfinato. Una sorta di prigionia non permette
+                                                                       un libero godimento dell’acqua. La si può sfiorare ma non ne si può sentire il sapore, non è
+                                                                       possibile nuotare liberamente. Non ci si sente soli, da qualche parte in questo paradiso
+                                                                       maledetto ho un fratello.<br /><br />
+                                                                       La mente è sgombra, gli occhi persi e ipnotizzati dal muoversi delle onde.<br /><br />
+                                                                       Esiste lontano un sole, quella luce la si riesce ad immaginare. Lontana, dietro un cielo di
+                                                                       nuvole.<br /><br />l
+                                                                       Il pensiero oscilla libero, oscilla anche la gabbia che rende quasi impossibile la fuga da
+                                                                       questa sensazione. Ma non è impossibile, in fondo al mare c'è uno scintillio, brilla di luce
+                                                                       lunare la chiave per la libertà
+                                                                   .</i><br /><br />
+                            L'ultimo dipinto <b>"Il sole dopo tredici lune"</b> è un inno alla volontà di liberazione: le coscienze
+                            hanno abbandonato lo stato onirico, gli Uomini hanno compreso la limitatezza precaria del
+                            tempo a loro disposizione e hanno saputo ascoltare i segreti dell'esistenza, prendendo in
+                            mano le loro vite e si sono uniti negli intenti. La fratellanza ha trionfato, l'umanità compie un
+                            percorso comune di ricerca in nome dell'elevazione. Si indagano gli abissi e i mondi più
+                            piccoli, le cime delle montagne più alte e i mondi più grandi. La scena viene osservata da
+                            una prigione ormai aperta, travolta dalla luce del giorno, i personaggi in osservazione non
+                            sembrano spaventati, piuttosto incuriositi. Non manca molto prima che anche loro si
+                            uniscano a quella danza intorno allo splendore del fuoco che nessun essere umano può
+                            guardare senza provare uno stupore antico<br /><br /><br />
+                        </p>
+                    </div>
+                    <div style="height: fit-content;" class=" col-12 col-sm-6 col-md-4 photo-item">
+
+                        <div class="photo-overlay">
+                            <h4>Photo 1</h4>
+                        </div>
+                        <img data-src="img/la_crepa_nell'uovo.jpg" src="img/la_crepa_nell'uovo.jpg"class="lazyload img-fluid" info="<h3> La crepa nell'uovo <br><br />
+  Nel primo quadro troviamo una civiltà sorda, impermeabile alla
+                            musica suonata dal Minotauro, custode del sapere magico-rituale  ">
+                    </div>
+                    <div style="height: fit-content;" class=" col-12 col-sm-6 col-md-4 photo-item">
+
+                        <div class="photo-overlay">
+                            <h4>Photo 2</h4>
+                        </div>
+                        <img data-src="img/gli_orfani.jpg" src="img/gli_orfani.jpg" class="lazyload img-fluid" info="<h3> Gli Orfani</h3> <br><br />
+  Nel secondo quadro i colori si incupiscono, mare e cielo si toccano in un armonico caos
+                            compositivo. ">
+                    </div>
+                    <div style="height: fit-content;" class=" col-12 col-sm-6 col-md-4 photo-item">
+
+                        <div class="photo-overlay">
+                            <h4>Photo 3</h4>
+                        </div>
+                        <img data-src="img/il_sole_dopo_tredici_lune.jpg" src="img/il_sole_dopo_tredici_lune.jpg" class="lazyload img-fluid" info="<h3> Il sole dopo tredici lune<br><br />
+  L'ultimo dipinto  è un inno alla volontà di liberazione: le coscienze
+                            hanno abbandonato lo stato onirico, gli Uomini hanno compreso la limitatezza precaria del
+                            tempo a loro disposizione e hanno saputo ascoltare i segreti dell'esistenza, prendendo in
+                            mano le loro vite e si sono uniti negli intenti. ">
+                    </div> 
+                    <div style="height: fit-content;" class="col-md-12 col-12 photo-item">
+                        <img data-src="img/catchafire_uovo.jpg" src="img/catchafire_uovo.jpg" class="lazyload img-fluid">
+                    </div>
+                    <div style="height: fit-content;" class="col-md-12 col-12 photo-item">
+                        <img data-src="img/catchafire_orfani.jpg" src="img/catchafire_orfani.jpg"  class="lazyload img-fluid">
+                    </div>
+                    <div style="height: fit-content;" class="col-md-12 col-12 photo-item">
+
+                        <img data-src="img/catchafire_rogo.jpg" src="img/catchafire_rogo.jpg" class="lazyload img-fluid">
+                    </div>
+
+                </div>
+                <div><hr /></div>
+                <h2 class="card-title" style="text-align: center; font-size:1.4rem;">
+                    Galleria Federico Vavassori - Referendum Sull'aeroplano
+                </h2>
+                <div class="row photo-grid">
+                    <div style="height: fit-content;" class=" col-12 photo-item">
+                        <p class="card-text">
+                            Se i francesi non fossero
+                            riusciti a convincere gli egiziani
+                            alle idee dell'Illuminismo,
+                            erano comunque fiduciosi che
+                            la tecnologia francese avrebbe
+                            impressionato i nativi. I
+                            sapienti di Napoleone
+                            portarono in Egitto un sacco di
+                            trucchi. Nel novembre 1798, i
+                            francesi organizzarono il lancio
+                            di una mongolfiera Montgolfier.
+                            Hanno affisso avvisi intorno al
+                            Cairo invitando i cittadini ad
+                            assistere alla meraviglia del
+                            volo.<br /><br /> Al-Jabarti aveva sentito i
+                            francesi fare affermazioni incredibili sul loro dirigibile, "che la gente si sarebbe seduta in
+                            esso viaggiando in paesi lontani per raccogliere informazioni e inviare messaggi", ed è
+                            andato a vedere la dimostrazione di persona. Guardando il pallone floscio sulla sua
+                            piattaforma, decorato con il rosso, il bianco e il blu del tricolore francese, al-Jabarti ebbe i
+                            suoi dubbi. I francesi accesero lo stoppino del Montgolfier, riempiendo il pallone di aria calda
+                            finché non prese il volo. <br /><br />La folla rimase a bocca aperta per lo stupore ei francesi provarono
+                            un evidente piacere per la loro reazione. Tutto sembrava andare bene finché il pallone non
+                            perse lo stoppino. Senza una fonte di aria calda, il Montgolfier è crollato ed è caduto a terra.
+                            Lo schianto del pallone ha ripristinato il disprezzo del pubblico del Cairo per la tecnologia
+                            francese. Al-Jabarti ha scritto sprezzantemente, "è diventato evidente che era come gli
+                            aquiloni che i servi costruiscono per le vacanze e i matrimoni". Gli indigeni non furono colpiti.
+                        </p>
+                    </div>
+                    <div style="height: fit-content;" class=" col-12 col-md-6  photo-item">
+                        <!--  <div class="product-flag available">Disponibile in trattativa privata</div>-->
+
+                        <img data-src="img/Referendum_sull'aeroplano.jpg" src="img/Referendum_sull'aeroplano.jpg" class="lazyload img-fluid">
+                    </div>
+                    <div style="height: fit-content;" class=" col-12 col-md-6  photo-item">
+                        <!--  <div class="product-flag available">Disponibile in trattativa privata</div>-->
+
+                        <img data-src="img/20161031_0064.jpg"  src="img/20161031_0064.jpg" class="lazyload img-fluid">
+                        <p class="img-des">
+                            Galleria Federico Vavassori, Milano, <a href="http://www.federicovavassori.com/exhibitions/dario-guccio-feat-andrea-cleopatria">" Referendum sull'aeroplano"</a> in collaborazione con
+                            Dario Guccio (25 ottobre - 19 novembre 2016)<br />
+                            Opera esposta: <a href="https://vimeo.com/190554464">"Cloaked In Silence"</a> video art (18 Min)
+                        </p>
+                    </div>
+                    <div style="height: fit-content;" class="col-md-6 col-12 photo-item">
+                        <img data-src="img/20161031_0053.jpg" src="img/20161031_0053.jpg" class="lazyload img-fluid">
+                    </div>
+                    <div style="height: fit-content;" class="col-md-6 col-12 photo-item">
+                        <img data-src="img/20161031_0063.jpg" src="img/20161031_0063.jpg"  class="lazyload img-fluid">
+                    </div>
+                    <div style="height: fit-content;" class="col-md-4 col-12 photo-item">
+                        <img data-src="img/senza-titolo-2.jpg" src="img/senza-titolo-2.jpg" class="lazyload img-fluid">
+                    </div>
+                    <div style="height: fit-content;" class="col-md-4 col-12 photo-item">
+
+                        <img data-src="img/senza-titolo.jpg" src="img/senza-titolo.jpg" class="lazyload img-fluid">
+                    </div>
+                    <div style="height: fit-content;" class="col-md-4 col-12 photo-item">
+
+                        <img data-src="img/cisxsound-music.verticale.00_02_41_22.immagine003.jpg" src="img/cisxsound-music.verticale.00_02_41_22.immagine003.jpg" class="lazyload img-fluid">
+                    </div>
+                </div>
+
+
+            </div>
+
+    </section>
+
+
+
+
+    <div style="height: 50px;"></div>
+    <section id="contact-section" style="background:white;" class="container">
+        <div><hr /></div>
+        <div class=" ">
+            <h2 class="card-title" style="text-align: center; font-size: 2rem;">Contatti</h2>
+            <div style="text-align:center;">
+
+                <div class="mt-3">
+                    <p>
+                        <a href="tel:+393489653025" style="text-align: left; padding: 0; color: black;" class=" me-3">
+                            <i class="fas fa-envelope me-2"></i>393489653025
+                        </a>
+                    </p>
+                    <p>
+                        <a href="mailto:email@email.com" style="text-align: left; padding: 0; color: black;" class=" me-3">
+                            <i class="fas fa-envelope me-2"></i>a.cleopatra@gmail.com
+                        </a>
+                    </p><p>
+                        <a href="https://www.instagram.com/cleopatria_a/" style="text-align: left; color: black; padding: 0;" class=" ">
+                            <i class="fab fa-instagram me-2"></i>@cleopatria_a
+                        </a>
+                    </p>
+                </div>
+
+            </div>
+        </div>
+        <div style="height: 80px;"></div>
+    </section>
+
+
+    <footer style="display: block; border-top: 1px solid lightgrey">
+        <div class="container ">
+            <p style="
+    margin: 7px;
+">
+                <a href="https://www.instagram.com/andreacleopatria/" style="color:lightgrey" class="card-text"><i class="fab fa-instagram me-2"></i>@cleopatria2023</a>
+
+            </p>
+        </div>
+    </footer>
+
+
+
+
+
+
+    <div id="photo-modal" class="modal fade" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered  modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button style="color: white; opacity: 0.99;" type="button" class="close" data-dismiss="modal">x</button>
+                </div>
+                <div class="modal-body">
+                    <div id="carousel" class="carousel slide" data-ride="carousel">
+                        <div class="carousel-inner">
+
+                        </div>
+                        <a class="carousel-control-prev" href="#carousel" data-slide="prev">
+                            <span class="carousel-control-prev-icon"></span>
+                        </a>
+                        <a class="carousel-control-next" href="#carousel" data-slide="next">
+                            <span class="carousel-control-next-icon"></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(window).on("load", function () {
+            var $spinner = $("<div>").addClass("spinner-border text-primary");
+            var $loader = $("<div>").addClass("loader").append($spinner);
+            $("body").prepend($loader);
+
+            var $images = $("img");
+            var loaded = 0;
+            $images.on("load", function () {
+                loaded++;
+                if (loaded == $images.length) {
+                    $spinner.css("opacity", 0);
+
+                    setTimeout(function () {
+                        $loader.remove();
+                    }, 500);
+                }
+            }).each(function () {
+                if (this.complete) $(this).trigger("load");
+            });
+        });
+
+        $(document).ready(function () {
+
+            $('img').each(function () {
+                var filename = $(this).attr('src').split('/').pop().replace('.jpg', '').replace(/_/g, ' ');
+                var productFlag = $(this).siblings('.product-flag');
+                if (filename.indexOf('[SOLD]') !== -1 && productFlag.hasClass('available')) {
+                    productFlag.removeClass('available').addClass('sold').text('Sold');
+                }
+
+                filename = filename.replace('[SOLD]', '');
+                filename = filename.charAt(0).toUpperCase() + filename.slice(1);
+
+
+                $(this).siblings('.photo-overlay').children('h4').text(filename);
+
+            });
+
+            var maxHeight = 0;
+            $('.image-wrapper').each(function () {
+                if ($(this).height() > maxHeight) {
+                    maxHeight = $(this).height();
+                }
+            });
+            $('.image-wrapper').height(maxHeight);
+            $('.photo-item').on('click', function () {
+                var $photoItems = $('.photo-item');
+                var index = $photoItems.index(this);
+                var carouselItems = '';
+                $photoItems.each(function () {
+                    var $img = $(this).find('img');
+                    if ($img.length > 0 && $img.attr("info") == undefined) {
+                        carouselItems += '<div class="carousel-item">  <img src="' + $img.attr('src') + '" class="d-block w-100">  </div>';
+                    }
+                    if ($img.length > 0 && $img.attr("info") != undefined) {
+                        carouselItems += '<div class="carousel-item">  <div class="row">   <div class="col-md-6"><img src="' + $img.attr('src') + '" class="d-block w-100">   </div>  <div class="col-md-6"> <div class="carousel-caption"><h3></h3> <p> ' + $img.attr("info") + ' </p></div>   </div></div> </div>';
+                    }
+                });
+
+                $('#carousel .carousel-inner').html(carouselItems);
+                $('#carousel .carousel-item').eq(index).addClass('active');
+                $('#photo-modal').modal('show');
+            });
+
+            $('.photo-item').on('mouseenter', function () {
+                $(this).find('.photo-overlay').addClass('active');
+            });
+
+            $('.photo-item').on('mouseleave', function () {
+                $(this).find('.photo-overlay').removeClass('active');
+            });
+        });
+    </script>
+
+</body>
+</html>
